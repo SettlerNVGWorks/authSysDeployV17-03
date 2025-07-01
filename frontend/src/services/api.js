@@ -2,7 +2,12 @@ import axios from 'axios';
 
 // Smart backend URL detection
 const getBackendURL = () => {
-  // If we're on localhost, use the env variable
+  // Production environment - use configured backend URL
+  if (process.env.NODE_ENV === 'production') {
+    return process.env.REACT_APP_BACKEND_URL || window.location.origin;
+  }
+  
+  // Development environment
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     return process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
   }
