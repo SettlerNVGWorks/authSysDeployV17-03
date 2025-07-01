@@ -131,7 +131,7 @@ backend:
 
   - task: "Password Management"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/routes/auth_mongo.js"
     stuck_count: 0
     priority: "high"
@@ -146,6 +146,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "Tested with the updated SendGrid API key. The forgot-password endpoint works correctly in terms of API responses, but the actual email sending fails because the sender email (vpfilter111@gmail.com) is not verified in the SendGrid account. This is causing a 403 Forbidden error when trying to send emails."
+      - working: true
+        agent: "testing"
+        comment: "Tested with the verified sender email. The forgot-password endpoint is now working correctly and emails are being sent successfully. The API returned a 200 status code with the appropriate success message."
 
   - task: "Telegram Authentication Flow"
     implemented: true
