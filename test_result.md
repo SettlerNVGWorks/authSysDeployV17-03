@@ -95,7 +95,7 @@ frontend:
 backend:
   - task: "Email Registration Flow"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/routes/auth_mongo.js"
     stuck_count: 0
     priority: "high"
@@ -110,6 +110,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "Tested with the updated SendGrid API key. The API key is valid, but the sender email (vpfilter111@gmail.com) is not verified in the SendGrid account. This is causing a 403 Forbidden error when trying to send emails. The API key has sufficient permissions, but sender verification is required by SendGrid before emails can be sent."
+      - working: true
+        agent: "testing"
+        comment: "Tested with the verified sender email. Registration is now working correctly and emails are being sent successfully. Created a test user with a unique email and username, and the API returned a 201 status code with the appropriate success message."
 
   - task: "Email Login Flow"
     implemented: true
