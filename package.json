@@ -1,0 +1,35 @@
+{
+  "name": "prognoz-sports",
+  "version": "1.0.0",
+  "description": "Professional sports predictions website with Docker deployment",
+  "scripts": {
+    "deploy": "./deploy.sh",
+    "ssl-setup": "./ssl-setup.sh", 
+    "test": "./test-integrations.sh",
+    "logs": "docker-compose logs -f",
+    "status": "docker-compose ps",
+    "restart": "docker-compose restart",
+    "stop": "docker-compose down",
+    "update": "git pull && docker-compose up -d --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/prognoz-sports.git"
+  },
+  "keywords": [
+    "sports",
+    "predictions",
+    "betting",
+    "docker",
+    "react",
+    "nodejs",
+    "mongodb",
+    "nginx"
+  ],
+  "author": "PrognozSports1.ru",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "docker": ">=20.0.0"
+  }
+}
