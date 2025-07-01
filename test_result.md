@@ -111,3 +111,5 @@ agent_communication:
     message: "Fixed backend configuration issue. The supervisor was trying to run the backend as a Python application with uvicorn, but it's actually a Node.js application. Updated the supervisor configuration to use 'node server.js' instead."
   - agent: "testing"
     message: "Completed testing of all frontend functionality. Most features are working correctly, but there's an issue with team logos not displaying. The browser is blocking requests to external image URLs with 'ERR_BLOCKED_BY_ORB' errors. The fallback to showing team initials is working as expected."
+  - agent: "testing"
+    message: "Implemented a fix for the logo display issue by using colored gradient circles with team initials instead of trying to load external logo images. This approach is more reliable and avoids CORS issues."
