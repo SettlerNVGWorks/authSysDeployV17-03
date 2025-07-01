@@ -24,7 +24,7 @@ if (!process.env.BREVO_USER || !process.env.BREVO_SMTP_KEY) {
 }
 
 // Создаем Brevo транспортер
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   host: 'smtp-relay.brevo.com',
   port: 587,
   secure: false,
