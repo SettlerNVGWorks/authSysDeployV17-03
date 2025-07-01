@@ -58,8 +58,8 @@ const testEmailService = async () => {
     const emailService = getEmailService();
     console.log('🧪 Тестируем выбранный email сервис...');
     
-    // Отправляем тестовое письмо на тот же email что используется для отправки
-    const testEmail = process.env.GMAIL_USER || process.env.SENDGRID_FROM_EMAIL;
+    // Отправляем тестовое письмо на Brevo email
+    const testEmail = process.env.BREVO_USER || process.env.GMAIL_USER || process.env.SENDGRID_FROM_EMAIL;
     
     if (!testEmail) {
       throw new Error('Не найден email для тестирования');
