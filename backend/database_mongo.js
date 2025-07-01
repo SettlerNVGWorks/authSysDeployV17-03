@@ -88,14 +88,55 @@ const initDatabase = async () => {
       await connectDatabase();
     }
 
-    // Create indexes for better performance
-    await db.collection('users').createIndex({ email: 1 }, { unique: true });
-    await db.collection('users').createIndex({ telegram_user_id: 1 }, { 
-      unique: true,
-      partialFilterExpression: { telegram_user_id: { $ne: null } }
-    });
-    await db.collection('users').createIndex({ verification_token: 1 }, { sparse: true });
-    await db.collection('users').createIndex({ password_reset_token: 1 }, { sparse: true });
+    // Create indexes for better performance with error handling
+    try {
+      await db.collection('users').createIndex({ email: 1 }, { unique: true });
+    } catch (error) {
+      if (error.code !== 85) { // Index already exists
+        console.log('Email index already exists or created successfully');
+      }
+    }
+    
+    // Handle telegram_user_id index separately with better error handling
+    try {
+      // First try to drop existing problematic index if it exists
+      try {
+        await db.collection('users').dropIndex('telegram_user_id_1');
+        console.log('Dropped existing telegram_user_id index');
+      } catch (dropError) {
+        // Index doesn't exist, that's fine
+      }
+      
+      // Create new index with correct configuration
+      await db.collection('users').createIndex(
+        { telegram_user_id: 1 }, 
+        { 
+          unique: true,
+          partialFilterExpression: { telegram_user_id: { $exists: true, $ne: null } }
+        }
+      );
+      console.log('✅ Created telegram_user_id index successfully');
+    } catch (error) {
+      console.error('❌ Error with telegram_user_id index:', error.message);
+      // Continue without this index - the app can still work
+    }
+    
+    try {
+      await db.collection('users').createIndex({ verification_token: 1 }, { sparse: true });
+    } catch (error) {
+      if (error.code !== 85) {
+        console.log('Verification token index already exists');
+      }
+    }
+    
+    try {
+      await db.collection('users').createIndex({ password_reset_token: 1 }, { sparse: true });
+    } catch (error) {
+      if (error.code !== 85) {
+        console.log('Password reset token index already exists');
+      }
+    }
+    
     await db.collection('matches').createIndex({ match_date: 1 });
     await db.collection('matches').createIndex({ sport: 1 });
     await db.collection('predictions').createIndex({ sport: 1 });
