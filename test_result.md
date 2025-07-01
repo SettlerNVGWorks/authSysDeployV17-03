@@ -95,7 +95,7 @@ frontend:
 backend:
   - task: "Email Registration Flow"
     implemented: true
-    working: true
+    working: false
     file: "/app/backend/routes/auth_mongo.js"
     stuck_count: 0
     priority: "high"
@@ -107,6 +107,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Email registration endpoints are correctly implemented. The API structure is correct and returns appropriate responses. The SendGrid API key appears to be invalid or expired, which prevents actual email sending, but the API handles this gracefully with proper error responses."
+      - working: false
+        agent: "testing"
+        comment: "Tested with the updated SendGrid API key. The API key is valid, but the sender email (vpfilter111@gmail.com) is not verified in the SendGrid account. This is causing a 403 Forbidden error when trying to send emails. The API key has sufficient permissions, but sender verification is required by SendGrid before emails can be sent."
 
   - task: "Email Login Flow"
     implemented: true
@@ -125,7 +128,7 @@ backend:
 
   - task: "Password Management"
     implemented: true
-    working: true
+    working: false
     file: "/app/backend/routes/auth_mongo.js"
     stuck_count: 0
     priority: "high"
@@ -137,6 +140,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Password management endpoints are correctly implemented. The forgot-password endpoint returns appropriate responses, and the reset-password endpoint validates tokens and updates passwords correctly. The change-password endpoint (protected route) also works as expected."
+      - working: false
+        agent: "testing"
+        comment: "Tested with the updated SendGrid API key. The forgot-password endpoint works correctly in terms of API responses, but the actual email sending fails because the sender email (vpfilter111@gmail.com) is not verified in the SendGrid account. This is causing a 403 Forbidden error when trying to send emails."
 
   - task: "Telegram Authentication Flow"
     implemented: true
