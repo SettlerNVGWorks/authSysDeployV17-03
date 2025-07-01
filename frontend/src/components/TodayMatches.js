@@ -267,10 +267,11 @@ const TodayMatches = () => {
                             </div>
                             {match.logo_team2 ? (
                               <img 
-                                src={match.logo_team2} 
+                                src={`https://cors-anywhere.herokuapp.com/${match.logo_team2}`} 
                                 alt={match.team2}
                                 className="w-8 h-8 rounded-full object-contain bg-white/10 p-1"
                                 onError={(e) => {
+                                  console.log(`❌ Failed to load logo for ${match.team2}`);
                                   e.target.style.display = 'none';
                                 }}
                               />
