@@ -45,7 +45,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        REACT_APP_BACKEND_URL: https://prognozSports1.ru
+        REACT_APP_BACKEND_URL: http://185.174.136.113
     container_name: sport_predictions_frontend
     restart: unless-stopped
     environment:
@@ -62,10 +62,8 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
       - ./logs/nginx:/var/log/nginx
     depends_on:
       - backend
