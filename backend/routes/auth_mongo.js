@@ -80,7 +80,7 @@ router.post('/register', async (req, res) => {
 
     const result = await db.collection('users').insertOne(newUser);
 
-    # Send verification email
+    // Send verification email
     const emailResult = await sendVerificationEmail(email, verificationToken, username);
     
     console.log('Email sending result:', emailResult);
