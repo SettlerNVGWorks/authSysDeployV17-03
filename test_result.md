@@ -179,6 +179,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Telegram authentication endpoints are working correctly. The API generates auth tokens, creates auth sessions, and handles confirmation properly. The telegram-auth-status endpoint correctly reports session status, and the telegram-link endpoint successfully creates or updates user accounts."
+      - working: true
+        agent: "testing"
+        comment: "Tested the Telegram authentication flow. The telegram-auth-start endpoint correctly generates auth tokens and returns a valid Telegram bot URL. The telegram-auth-status endpoint properly reports the session status. The MongoDB integration for storing and retrieving Telegram auth sessions is working correctly."
 
   - task: "Telegram Webhook Endpoints"
     implemented: true
