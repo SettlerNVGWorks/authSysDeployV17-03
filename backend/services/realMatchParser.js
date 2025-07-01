@@ -328,11 +328,12 @@ class RealMatchParser {
         return logoUrl;
       }
       
-      // Fallback to static mapping
-      return getTeamLogo(teamName, sport);
+      // Fallback to direct logo service call (includes all fallbacks)
+      return await this.logoService.getTeamLogo(teamName, sport);
     } catch (error) {
       console.error(`Error getting logo for ${teamName}:`, error);
-      return getTeamLogo(teamName, sport);
+      // Final fallback - generate a placeholder logo
+      return await this.logoService.getTeamLogo(teamName, sport);
     }
   }
   // Convert time to Moscow timezone properly
