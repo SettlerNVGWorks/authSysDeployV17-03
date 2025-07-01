@@ -6,7 +6,7 @@ console.log('📧 Настройка Brevo SMTP сервиса...');
 
 // Создание Brevo транспортера
 const createBrevoTransporter = () => {
-  const transporter = nodemailer.createTransporter({
+  const transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
     port: 587,
     secure: false, // true for 465, false for other ports
