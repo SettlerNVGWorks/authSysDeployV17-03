@@ -35,6 +35,10 @@ chmod 755 logs/nginx
 echo -e "${YELLOW}🛑 Stopping existing containers...${NC}"
 docker-compose down --remove-orphans
 
+# Clean up old images (optional)
+echo -e "${YELLOW}🧹 Cleaning up old images...${NC}"
+docker system prune -f
+
 # Pull latest images
 echo -e "${YELLOW}📦 Pulling latest images...${NC}"
 docker-compose pull
