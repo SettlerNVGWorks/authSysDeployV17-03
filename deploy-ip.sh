@@ -35,17 +35,14 @@ chmod 755 logs/nginx
 echo -e "${YELLOW}🛑 Stopping existing containers...${NC}"
 docker-compose down --remove-orphans
 
-# Clean up old images (optional)
-echo -e "${YELLOW}🧹 Cleaning up old images...${NC}"
+# Clean up old images and build cache
+echo -e "${YELLOW}🧹 Cleaning up Docker cache...${NC}"
 docker system prune -f
+docker builder prune -f
 
-# Pull latest images
-echo -e "${YELLOW}📦 Pulling latest images...${NC}"
-docker-compose pull
-
-# Build and start services
+# Build and start services (without pulling - we want fresh builds)
 echo -e "${YELLOW}🔨 Building and starting services...${NC}"
-docker-compose up -d --build
+docker-compose up -d --build --force-recreate
 
 # Wait for services to be ready
 echo -e "${YELLOW}⏳ Waiting for services to be ready...${NC}"
