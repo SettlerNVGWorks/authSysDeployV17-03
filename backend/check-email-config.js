@@ -1,5 +1,5 @@
-// Демонстрация универсального email сервиса без настоящих ключей
-require('dotenv').config({ path: '.env.production' });
+// Демонстрация универсального email сервиса с Brevo API
+require('dotenv').config();
 
 console.log('🔍 Проверка конфигурации email сервисов...\n');
 
@@ -7,7 +7,15 @@ console.log('🔍 Проверка конфигурации email сервисо
 const checkEmailServices = () => {
   console.log('📋 Доступные email сервисы:');
   
-  // Brevo
+  // Brevo API (приоритет №1)
+  if (process.env.BREVO_API_KEY && process.env.BREVO_FROM_EMAIL) {
+    console.log('✅ Brevo API - настроен и готов (ПРИОРИТЕТ)');
+  } else {
+    console.log('❌ Brevo API - не настроен');
+    console.log('   Нужно: BREVO_API_KEY и BREVO_FROM_EMAIL');
+  }
+  
+  // Brevo SMTP (приоритет №2)
   if (process.env.BREVO_USER && process.env.BREVO_SMTP_KEY && process.env.BREVO_SMTP_KEY !== 'YOUR_BREVO_SMTP_KEY_HERE') {
     console.log('✅ Brevo SMTP - настроен и готов');
   } else {
