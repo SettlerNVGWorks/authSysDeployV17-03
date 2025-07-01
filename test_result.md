@@ -137,6 +137,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Email login endpoints are working correctly. The API properly validates credentials, checks if the user is verified, and returns appropriate JWT tokens. Protected routes correctly validate authentication tokens."
+      - working: true
+        agent: "testing"
+        comment: "Tested the login functionality. The login endpoint correctly validates credentials and returns a 401 status code with an appropriate error message for invalid credentials. The endpoint also checks if the user is verified before allowing login. The API returns proper JWT tokens for successful logins."
 
   - task: "Password Management"
     implemented: true
