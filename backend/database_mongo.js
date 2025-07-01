@@ -90,7 +90,11 @@ const initDatabase = async () => {
 
     // Create indexes for better performance
     await db.collection('users').createIndex({ email: 1 }, { unique: true });
-    await db.collection('users').createIndex({ telegram_user_id: 1 }, { unique: true, sparse: true });
+    await db.collection('users').createIndex({ telegram_user_id: 1 }, { 
+      unique: true, 
+      sparse: true,
+      partialFilterExpression: { telegram_user_id: { $ne: null } }
+    });
     await db.collection('users').createIndex({ verification_token: 1 }, { sparse: true });
     await db.collection('users').createIndex({ password_reset_token: 1 }, { sparse: true });
     await db.collection('matches').createIndex({ match_date: 1 });
