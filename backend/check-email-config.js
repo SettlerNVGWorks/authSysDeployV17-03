@@ -70,14 +70,14 @@ const simulateServiceSelection = () => {
 checkEmailServices();
 simulateServiceSelection();
 
-console.log('📧 Для настройки Brevo:');
-console.log('1. Зарегистрируйтесь: https://www.brevo.com');
-console.log('2. Получите SMTP ключ в Settings → SMTP & API');
-console.log('3. Обновите .env.production:');
-console.log('   BREVO_USER=vpfilter111@gmail.com');
-console.log('   BREVO_SMTP_KEY=ваш-реальный-smtp-ключ');
-console.log('4. Перезапустите Docker');
+console.log('📧 Для настройки Brevo API:');
+console.log('1. Войдите в https://app.brevo.com');
+console.log('2. Получите API ключ в Settings → API Keys');
+console.log('3. Обновите .env:');
+console.log('   BREVO_API_KEY=ваш-api-ключ');
+console.log('   BREVO_FROM_EMAIL=ваш-email');
+console.log('4. Перезапустите сервер');
 console.log('');
 console.log('🧪 После настройки запустите:');
-console.log('   node test-brevo.js');
+console.log('   node test-brevo-api.js');
 console.log('');
