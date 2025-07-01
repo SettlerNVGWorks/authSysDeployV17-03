@@ -83,7 +83,9 @@ app.get('/api/health', (req, res) => {
     status: 'healthy', 
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    database: 'mongodb://localhost:27017/sport_predictions',
+    database: process.env.MONGO_URL,
+    frontend_url: process.env.FRONTEND_URL,
+    sendgrid_from_email: process.env.SENDGRID_FROM_EMAIL,
     cors_enabled: true
   });
 });
