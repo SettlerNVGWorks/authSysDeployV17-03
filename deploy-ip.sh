@@ -31,6 +31,15 @@ mkdir -p data/mongodb
 # Set permissions
 chmod 755 logs/nginx
 
+# Fix port 80 conflicts
+echo -e "${YELLOW}🔧 Checking and fixing port 80 conflicts...${NC}"
+sudo systemctl stop nginx 2>/dev/null || echo "nginx not running"
+sudo systemctl disable nginx 2>/dev/null || echo "nginx not installed"
+sudo systemctl stop apache2 2>/dev/null || echo "apache2 not running"
+sudo systemctl disable apache2 2>/dev/null || echo "apache2 not installed"
+sudo fuser -k 80/tcp 2>/dev/null || echo "Port 80 already free"
+sleep 2
+
 # Stop existing containers
 echo -e "${YELLOW}🛑 Stopping existing containers...${NC}"
 docker-compose down --remove-orphans
