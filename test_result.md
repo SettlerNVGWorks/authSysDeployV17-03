@@ -158,6 +158,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "Tested with the verified sender email. The forgot-password endpoint is now working correctly and emails are being sent successfully. The API returned a 200 status code with the appropriate success message."
+      - working: true
+        agent: "testing"
+        comment: "Tested the password reset functionality. The forgot-password endpoint correctly handles requests and returns a 200 status code with a generic message for security reasons. The reset-password endpoint properly validates tokens and rejects invalid tokens with a 400 status code. The Brevo API is configured correctly for sending password reset emails with Russian text."
 
   - task: "Telegram Authentication Flow"
     implemented: true
