@@ -45,13 +45,16 @@ const checkEmailServices = () => {
 // Симуляция выбора сервиса
 const simulateServiceSelection = () => {
   console.log('🎯 Приоритет выбора сервиса:');
-  console.log('1. Brevo SMTP (300 писем/день)');
-  console.log('2. Gmail SMTP (500 писем/день)'); 
-  console.log('3. SendGrid (100 писем/день на free tier)');
+  console.log('1. Brevo API (1000 писем/день на free)');
+  console.log('2. Brevo SMTP (300 писем/день)');
+  console.log('3. Gmail SMTP (500 писем/день)'); 
+  console.log('4. SendGrid (100 писем/день на free tier)');
   console.log('');
   
   // Проверяем что будет выбрано
-  if (process.env.BREVO_USER && process.env.BREVO_SMTP_KEY && process.env.BREVO_SMTP_KEY !== 'YOUR_BREVO_SMTP_KEY_HERE') {
+  if (process.env.BREVO_API_KEY && process.env.BREVO_FROM_EMAIL) {
+    console.log('🔥 БУДЕТ ВЫБРАН: Brevo API');
+  } else if (process.env.BREVO_USER && process.env.BREVO_SMTP_KEY && process.env.BREVO_SMTP_KEY !== 'YOUR_BREVO_SMTP_KEY_HERE') {
     console.log('🔥 БУДЕТ ВЫБРАН: Brevo SMTP');
   } else if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD && process.env.GMAIL_APP_PASSWORD !== 'YOUR_GMAIL_APP_PASSWORD_HERE') {
     console.log('🔥 БУДЕТ ВЫБРАН: Gmail SMTP');
