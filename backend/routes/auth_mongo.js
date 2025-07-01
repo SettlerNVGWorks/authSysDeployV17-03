@@ -80,13 +80,15 @@ router.post('/register', async (req, res) => {
 
     const result = await db.collection('users').insertOne(newUser);
 
-    // Send verification email
+    # Send verification email
     const emailResult = await sendVerificationEmail(email, verificationToken, username);
+    
+    console.log('Email sending result:', emailResult);
     
     if (!emailResult.success) {
       // Remove user if email failed to send
       await db.collection('users').deleteOne({ _id: result.insertedId });
-      return res.status(500).json({ error: 'Не удалось отправить письмо подтверждения' });
+      return res.status(500).json({ error: 'Не удалось отправить письмо подтверждения', details: emailResult.error });
     }
 
     res.status(201).json({
