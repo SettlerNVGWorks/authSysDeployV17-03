@@ -5,7 +5,7 @@ import time
 import os
 
 # Get the backend URL from the frontend .env file
-BACKEND_URL = "https://d79666a5-efa4-4b73-93ca-9fcd01d8cea8.preview.emergentagent.com"
+BACKEND_URL = "https://590a8ac8-8b26-42e0-9e0e-d555cbddb6db.preview.emergentagent.com"
 API_URL = f"{BACKEND_URL}/api"
 
 # Test data as specified in the review request
