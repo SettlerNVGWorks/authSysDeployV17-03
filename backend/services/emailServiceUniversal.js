@@ -2,16 +2,20 @@
 require('dotenv').config();
 
 // Импорт различных email сервисов
+const brevoAPIService = require('./emailServiceBrevoAPI');
+const brevoSMTPService = require('./emailServiceBrevo');
 const sendGridService = require('./emailServiceSendGrid');
 const gmailService = require('./emailServiceGmailSMTP');
-const brevoService = require('./emailServiceBrevo');
 
 // Определяем какой сервис использовать на основе переменных окружения
 const getEmailService = () => {
-  // Приоритет: Brevo > Gmail SMTP > SendGrid
-  if (process.env.BREVO_USER && process.env.BREVO_SMTP_KEY) {
+  // Приоритет: Brevo API > Brevo SMTP > Gmail SMTP > SendGrid
+  if (process.env.BREVO_API_KEY && process.env.BREVO_FROM_EMAIL) {
+    console.log('📧 Используем Brevo API для отправки email');
+    return brevoAPIService;
+  } else if (process.env.BREVO_USER && process.env.BREVO_SMTP_KEY) {
     console.log('📧 Используем Brevo SMTP для отправки email');
-    return brevoService;
+    return brevoSMTPService;
   } else if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
     console.log('📧 Используем Gmail SMTP для отправки email');
     return gmailService;
@@ -20,7 +24,7 @@ const getEmailService = () => {
     return sendGridService;
   } else {
     console.error('❌ Не настроен ни один email сервис!');
-    console.error('Настройте Brevo, Gmail SMTP или SendGrid в .env файле');
+    console.error('Настройте Brevo API, Brevo SMTP, Gmail SMTP или SendGrid в .env файле');
     throw new Error('Email service not configured');
   }
 };
