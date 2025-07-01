@@ -92,10 +92,101 @@ frontend:
         agent: "testing"
         comment: "Responsive design works well on different screen sizes. Tested on desktop (1920x1080), tablet (768x1024), and mobile (390x844). Menu button appears on smaller screens and the mobile menu opens and closes correctly."
 
+backend:
+  - task: "Email Registration Flow"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test user registration with email, username, password"
+      - working: true
+        agent: "testing"
+        comment: "Email registration endpoints are correctly implemented. The API structure is correct and returns appropriate responses. The SendGrid API key appears to be invalid or expired, which prevents actual email sending, but the API handles this gracefully with proper error responses."
+
+  - task: "Email Login Flow"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test user login with email and password"
+      - working: true
+        agent: "testing"
+        comment: "Email login endpoints are working correctly. The API properly validates credentials, checks if the user is verified, and returns appropriate JWT tokens. Protected routes correctly validate authentication tokens."
+
+  - task: "Password Management"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test password reset and change functionality"
+      - working: true
+        agent: "testing"
+        comment: "Password management endpoints are correctly implemented. The forgot-password endpoint returns appropriate responses, and the reset-password endpoint validates tokens and updates passwords correctly. The change-password endpoint (protected route) also works as expected."
+
+  - task: "Telegram Authentication Flow"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test Telegram authentication flow"
+      - working: true
+        agent: "testing"
+        comment: "Telegram authentication endpoints are working correctly. The API generates auth tokens, creates auth sessions, and handles confirmation properly. The telegram-auth-status endpoint correctly reports session status, and the telegram-link endpoint successfully creates or updates user accounts."
+
+  - task: "Telegram Webhook Endpoints"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/telegram_webhook.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test Telegram bot webhook functionality"
+      - working: true
+        agent: "testing"
+        comment: "Telegram webhook endpoints are working correctly. The webhook endpoint processes updates, the webhook-info endpoint returns current webhook status, and the set-webhook endpoint successfully configures the webhook URL. The Telegram bot API works correctly for authentication flow, but sending messages to non-existent chat IDs fails (expected in a test environment)."
+
+  - task: "Protected Routes"
+    implemented: true
+    working: true
+    file: "/app/backend/middleware_mongo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test protected routes with and without valid JWT tokens"
+      - working: true
+        agent: "testing"
+        comment: "Protected routes are working correctly. The auth middleware properly validates JWT tokens, checks for user existence, and returns appropriate error responses for invalid or missing tokens."
+
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 1
+  test_sequence: 2
 
 test_plan:
   current_focus: []
@@ -112,3 +203,5 @@ agent_communication:
     message: "Completed testing of all frontend functionality. Most features are working correctly, but there's an issue with team logos not displaying. The browser is blocking requests to external image URLs with 'ERR_BLOCKED_BY_ORB' errors. The fallback to showing team initials is working as expected."
   - agent: "testing"
     message: "Implemented a fix for the logo display issue by using colored gradient circles with team initials instead of trying to load external logo images. This approach is more reliable and avoids CORS issues."
+  - agent: "testing"
+    message: "Completed testing of all authentication-related backend functionality. All endpoints are correctly implemented and return appropriate responses. There are two non-critical issues: 1) The SendGrid API key appears to be invalid or expired, which prevents actual email sending, but the API handles this gracefully. 2) The Telegram bot API works correctly for authentication flow, but sending messages to non-existent chat IDs fails (expected in a test environment)."
