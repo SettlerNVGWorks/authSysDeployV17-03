@@ -814,6 +814,40 @@ router.put('/change-password', authMiddleware, async (req, res) => {
   }
 });
 
+// Check referral code validity
+router.post('/check-referral', async (req, res) => {
+  try {
+    const { referralCode } = req.body;
+
+    if (!referralCode || !referralCode.trim()) {
+      return res.status(400).json({ error: 'Реферальный код обязателен' });
+    }
+
+    const db = getDatabase();
+    const referrer = await db.collection('users').findOne({
+      referral_code: referralCode.trim().toUpperCase()
+    });
+
+    if (!referrer) {
+      return res.status(404).json({ 
+        error: 'Реферальный код не найден',
+        valid: false 
+      });
+    }
+
+    res.json({
+      valid: true,
+      referrer_username: referrer.username,
+      bonus_amount: 2000,
+      referrer_bonus: 500,
+      message: `Код принадлежит пользователю ${referrer.username}. Вы получите 2000₽ вместо 1000₽!`
+    });
+  } catch (error) {
+    console.error('Check referral error:', error);
+    res.status(500).json({ error: 'Ошибка проверки реферального кода' });
+  }
+});
+
 // Logout (client-side token removal, but we can add token blacklisting if needed)
 router.post('/logout', authMiddleware, async (req, res) => {
   try {
