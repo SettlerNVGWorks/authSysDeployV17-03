@@ -101,6 +101,7 @@ export const authAPI = {
   resetPassword: (data) => api.post('/api/auth/reset-password', data),
   telegramAuthStart: (email) => api.post('/api/auth/telegram-auth-start', { email }),
   telegramAuthStatus: (token) => api.get(`/api/auth/telegram-auth-status/${token}`),
+  checkReferral: (referralCode) => api.post('/api/auth/check-referral', { referralCode }),
 };
 
 // Sports API functions
