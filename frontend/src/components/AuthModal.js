@@ -465,6 +465,48 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 />
               </div>
 
+              {/* Referral Code Field */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Реферальный код (необязательно)
+                </label>
+                <input
+                  type="text"
+                  name="referralCode"
+                  value={formData.referralCode}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent ${
+                    referralStatus.valid === true ? 'border-green-500 focus:ring-green-500 bg-green-50' :
+                    referralStatus.valid === false ? 'border-red-500 focus:ring-red-500 bg-red-50' :
+                    'border-gray-300 focus:ring-blue-500'
+                  }`}
+                  placeholder="Введите код друга"
+                  disabled={loading}
+                />
+                
+                {/* Referral Status */}
+                {referralStatus.checking && (
+                  <div className="mt-2 text-sm text-blue-600 flex items-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                    Проверяем код...
+                  </div>
+                )}
+                
+                {referralStatus.valid === true && (
+                  <div className="mt-2 text-sm text-green-600 flex items-center">
+                    <span className="mr-2">✅</span>
+                    {referralStatus.message}
+                  </div>
+                )}
+                
+                {referralStatus.valid === false && (
+                  <div className="mt-2 text-sm text-red-600 flex items-center">
+                    <span className="mr-2">❌</span>
+                    {referralStatus.message}
+                  </div>
+                )}
+              </div>
+
               <button
                 type="submit"
                 disabled={loading}
