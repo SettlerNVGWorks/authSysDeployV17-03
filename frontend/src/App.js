@@ -7,6 +7,7 @@ import onewin_logo from './source_pics/1win-mid-1280x720-1.png';
 import { authAPI, sportsAPI } from './services/api';
 import TodayMatches from './components/TodayMatches';
 import AuthModal from './components/AuthModal';
+import ProfileModal from './components/ProfileModal';
 import EmailVerification from './components/EmailVerification';
 
 // Main App Component
