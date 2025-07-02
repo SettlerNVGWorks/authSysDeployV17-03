@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
 
 const AuthModal = ({ isOpen, onClose, onSuccess }) => {
