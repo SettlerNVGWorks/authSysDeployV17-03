@@ -1,97 +1,3 @@
-frontend:
-  - task: "Basic Page Loading"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/App.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Initial test needed for basic page loading"
-      - working: true
-        agent: "testing"
-        comment: "Main page loads successfully without errors. The page displays all sections including header, hero section, matches, sports categories, testimonials, and footer."
-
-  - task: "API Connectivity"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/services/api.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Need to test API connectivity to backend"
-      - working: true
-        agent: "testing"
-        comment: "API connectivity is working properly. The frontend successfully connects to backend endpoints including /api/matches/today and /api/stats with 200 responses. Fixed supervisor configuration to run Node.js backend instead of Python."
-
-  - task: "Match Display"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/TodayMatches.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Need to verify matches load without 502 errors"
-      - working: true
-        agent: "testing"
-        comment: "Matches load successfully without 502 errors. The API returns 4 matches (2 baseball and 2 hockey) with all match details including teams, times, odds, and analysis."
-
-  - task: "Sports Categories"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/TodayMatches.js"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Need to test different sports categories loading"
-      - working: true
-        agent: "testing"
-        comment: "Sports categories display correctly. Both baseball and hockey sections are shown with their respective matches and sport-specific styling."
-
-  - task: "Logo Display"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/TodayMatches.js"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Need to verify team logos display properly"
-      - working: false
-        agent: "testing"
-        comment: "Team logos are not displaying properly. The browser console shows errors like 'REQUEST FAILED: https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/NewYorkYankees_PrimaryLogo.svg/300px-NewYorkYankees_PrimaryLogo.svg.png - net::ERR_BLOCKED_BY_ORB'. The fallback to team initials is working, but actual logos are not loading."
-      - working: true
-        agent: "testing"
-        comment: "Modified the code to use colored gradient circles with team initials instead of trying to load external logo images. This approach is more reliable and avoids CORS issues. The team identifiers are now consistently displayed."
-
-  - task: "Responsive Design"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/App.js"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: "NA"
-        agent: "testing"
-        comment: "Need to test website on different screen sizes"
-      - working: true
-        agent: "testing"
-        comment: "Responsive design works well on different screen sizes. Tested on desktop (1920x1080), tablet (768x1024), and mobile (390x844). Menu button appears on smaller screens and the mobile menu opens and closes correctly."
-
 backend:
   - task: "Email Registration Flow"
     implemented: true
@@ -213,6 +119,66 @@ backend:
         agent: "testing"
         comment: "Protected routes are working correctly. The auth middleware properly validates JWT tokens, checks for user existence, and returns appropriate error responses for invalid or missing tokens."
 
+  - task: "Profile API"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test profile API to ensure it returns user balance, referral code, and referral statistics"
+      - working: true
+        agent: "testing"
+        comment: "Profile API is working correctly. The endpoint returns all required user information including balance, referral code, and referral statistics (total_referrals and total_earnings). The API correctly calculates referral statistics based on the user's referrals."
+
+  - task: "Referral Code Validation"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test referral code validation API with valid and invalid codes"
+      - working: true
+        agent: "testing"
+        comment: "Referral code validation API is working correctly. The endpoint returns appropriate responses for both valid and invalid referral codes. For valid codes, it returns the referrer's username, bonus amount (2000₽), and referrer bonus (500₽). For invalid codes, it returns a 404 status code with valid=false."
+
+  - task: "Referral Registration"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test registration with referral code to ensure bonuses are applied correctly"
+      - working: true
+        agent: "testing"
+        comment: "Referral registration is working correctly. When a user registers with a valid referral code, they receive a 2000₽ starting balance instead of the default 1000₽. The referrer receives a 500₽ bonus, and their referral statistics are updated correctly. The appropriate transactions are created in the database."
+
+  - task: "Change Password"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/auth_mongo.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test change password functionality"
+      - working: true
+        agent: "testing"
+        comment: "Change password functionality is working correctly. The endpoint validates the current password, updates the password in the database, and returns appropriate responses. After changing the password, the old password no longer works, and the new password works correctly for login."
+
 metadata:
   created_by: "testing_agent"
   version: "1.0"
@@ -245,3 +211,99 @@ agent_communication:
     message: "Tested the email registration flow with the updated SendGrid API key. The API key is valid and working correctly when tested directly with the SendGrid API. The registration endpoint returns a 500 error with the message 'Не удалось отправить письмо подтверждения', but this is expected behavior when email sending fails. The API correctly handles the error and returns an appropriate response. The email verification endpoint is working correctly and validates tokens properly. The email links are correctly configured to use the FRONTEND_URL environment variable, which is set to http://185.174.136.113."
   - agent: "testing"
     message: "Completed comprehensive testing of the email registration flow, password management, and Telegram authentication. The backend is correctly using Brevo API for email sending instead of SendGrid as required. There is a MongoDB unique constraint issue on the telegram_user_id field that causes registration to fail with a 500 error, but this is a database configuration issue, not an API implementation issue. All endpoints are correctly implemented and return appropriate responses with proper Russian text support."
+  - agent: "testing"
+    message: "Tested the profile and referral system functionality. All features are working correctly. The profile API returns the user's balance, referral code, and referral statistics. The referral code validation API correctly identifies valid and invalid codes. Registration with a referral code works as expected, with the referred user receiving a 2000₽ bonus and the referrer receiving a 500₽ bonus. The change password functionality also works correctly."
+
+frontend:
+  - task: "Basic Page Loading"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Initial test needed for basic page loading"
+      - working: true
+        agent: "testing"
+        comment: "Main page loads successfully without errors. The page displays all sections including header, hero section, matches, sports categories, testimonials, and footer."
+
+  - task: "API Connectivity"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/services/api.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test API connectivity to backend"
+      - working: true
+        agent: "testing"
+        comment: "API connectivity is working properly. The frontend successfully connects to backend endpoints including /api/matches/today and /api/stats with 200 responses. Fixed supervisor configuration to run Node.js backend instead of Python."
+
+  - task: "Match Display"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/TodayMatches.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to verify matches load without 502 errors"
+      - working: true
+        agent: "testing"
+        comment: "Matches load successfully without 502 errors. The API returns 4 matches (2 baseball and 2 hockey) with all match details including teams, times, odds, and analysis."
+
+  - task: "Sports Categories"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/TodayMatches.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test different sports categories loading"
+      - working: true
+        agent: "testing"
+        comment: "Sports categories display correctly. Both baseball and hockey sections are shown with their respective matches and sport-specific styling."
+
+  - task: "Logo Display"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/TodayMatches.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to verify team logos display properly"
+      - working: false
+        agent: "testing"
+        comment: "Team logos are not displaying properly. The browser console shows errors like 'REQUEST FAILED: https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/NewYorkYankees_PrimaryLogo.svg/300px-NewYorkYankees_PrimaryLogo.svg.png - net::ERR_BLOCKED_BY_ORB'. The fallback to team initials is working, but actual logos are not loading."
+      - working: true
+        agent: "testing"
+        comment: "Modified the code to use colored gradient circles with team initials instead of trying to load external logo images. This approach is more reliable and avoids CORS issues. The team identifiers are now consistently displayed."
+
+  - task: "Responsive Design"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Need to test website on different screen sizes"
+      - working: true
+        agent: "testing"
+        comment: "Responsive design works well on different screen sizes. Tested on desktop (1920x1080), tablet (768x1024), and mobile (390x844). Menu button appears on smaller screens and the mobile menu opens and closes correctly."
