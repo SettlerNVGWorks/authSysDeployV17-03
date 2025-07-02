@@ -85,6 +85,14 @@ const MainApp = () => {
     setShowAuthModal(false);
   };
 
+  // Handle user update (for profile changes)
+  const handleUserUpdate = (updatedUser) => {
+    setCurrentUser(updatedUser);
+    // Also update localStorage/sessionStorage
+    const storage = localStorage.getItem('authToken') ? localStorage : sessionStorage;
+    storage.setItem('userData', JSON.stringify(updatedUser));
+  };
+
   // Handle logout
   const handleLogout = async () => {
     try {
