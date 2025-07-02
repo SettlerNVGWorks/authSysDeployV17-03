@@ -645,12 +645,25 @@ router.post('/telegram-link', async (req, res) => {
       telegram_username: telegram_username,
       first_name: first_name,
       last_name: last_name,
+      balance: 1000, // Default balance
+      referral_code: generateReferralCode(telegram_username || first_name || `tg${telegram_user_id}`),
+      referred_by: null,
+      referred_by_code: null,
       registration_date: new Date(),
       created_at: new Date(),
       updated_at: new Date()
     };
 
     const result = await db.collection('users').insertOne(newUser);
+
+    // Create initial balance transaction
+    await db.collection('transactions').insertOne({
+      user_id: result.insertedId,
+      type: 'registration_bonus',
+      amount: 1000,
+      description: 'Стартовый бонус за регистрацию через Telegram',
+      date: new Date()
+    });
 
     res.json({
       success: true,
