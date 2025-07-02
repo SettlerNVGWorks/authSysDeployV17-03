@@ -16,6 +16,7 @@ const MainApp = () => {
   const [showSponsor, setShowSponsor] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const [showGame, setShowGame] = useState(false);
   const [showFAQ, setShowFAQ] = useState(false);
   const [showContact, setShowContact] = useState(false);
