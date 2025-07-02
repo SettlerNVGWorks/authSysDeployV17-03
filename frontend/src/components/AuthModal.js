@@ -33,7 +33,59 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
     }));
     if (error) setError('');
     if (success) setSuccess('');
+    
+    // Reset referral status when referral code changes
+    if (name === 'referralCode') {
+      setReferralStatus({
+        checking: false,
+        valid: null,
+        message: ''
+      });
+    }
   };
+
+  // Check referral code
+  const checkReferralCode = async (code) => {
+    if (!code.trim()) {
+      setReferralStatus({
+        checking: false,
+        valid: null,
+        message: ''
+      });
+      return;
+    }
+
+    setReferralStatus({
+      checking: true,
+      valid: null,
+      message: ''
+    });
+
+    try {
+      const response = await authAPI.checkReferral(code.trim());
+      setReferralStatus({
+        checking: false,
+        valid: true,
+        message: response.data.message
+      });
+    } catch (error) {
+      setReferralStatus({
+        checking: false,
+        valid: false,
+        message: error.response?.data?.error || 'Неверный код'
+      });
+    }
+  };
+
+  // Debounced referral check
+  useEffect(() => {
+    if (formData.referralCode) {
+      const timer = setTimeout(() => {
+        checkReferralCode(formData.referralCode);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [formData.referralCode]);
 
   // Handle login
   const handleLogin = async (e) => {
