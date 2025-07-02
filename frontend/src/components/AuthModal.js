@@ -14,7 +14,14 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
     password: '',
     username: '',
     confirmPassword: '',
-    verificationToken: ''
+    verificationToken: '',
+    referralCode: ''
+  });
+  
+  const [referralStatus, setReferralStatus] = useState({
+    checking: false,
+    valid: null,
+    message: ''
   });
 
   // Handle input changes
