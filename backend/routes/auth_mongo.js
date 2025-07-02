@@ -531,6 +531,10 @@ router.get('/telegram-auth-status/:token', async (req, res) => {
           auth_method: 'telegram',
           telegram_user_id: session.telegram_user_info.id,
           telegram_username: session.telegram_user_info.username,
+          balance: 1000, // Default balance for Telegram users
+          referral_code: generateReferralCode(session.telegram_user_info.username || session.telegram_user_info.first_name || `tg${session.telegram_user_info.id}`),
+          referred_by: null,
+          referred_by_code: null,
           registration_date: new Date(),
           created_at: new Date(),
           updated_at: new Date()
@@ -538,6 +542,15 @@ router.get('/telegram-auth-status/:token', async (req, res) => {
 
         const result = await db.collection('users').insertOne(newUser);
         user = { ...newUser, _id: result.insertedId };
+
+        // Create initial balance transaction for Telegram user
+        await db.collection('transactions').insertOne({
+          user_id: result.insertedId,
+          type: 'registration_bonus',
+          amount: 1000,
+          description: 'Стартовый бонус за регистрацию через Telegram',
+          date: new Date()
+        });
       }
 
       if (user) {
