@@ -25,7 +25,7 @@ const generateReferralCode = (username) => {
 // Register new user with email
 router.post('/register', async (req, res) => {
   try {
-    const { email, username, password, confirmPassword } = req.body;
+    const { email, username, password, confirmPassword, referralCode } = req.body;
 
     // Validation
     if (!email || !username || !password || !confirmPassword) {
@@ -62,12 +62,29 @@ router.post('/register', async (req, res) => {
       }
     }
 
+    // Process referral code
+    let referrerUser = null;
+    let startingBalance = 1000; // Default balance in rubles
+
+    if (referralCode && referralCode.trim()) {
+      referrerUser = await db.collection('users').findOne({
+        referral_code: referralCode.trim().toUpperCase()
+      });
+
+      if (referrerUser) {
+        startingBalance = 2000; // Bonus balance for referred users
+      }
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Generate verification token
     const verificationToken = generateSecureToken();
     const verificationTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    // Generate unique referral code for new user
+    const userReferralCode = generateReferralCode(username);
 
     // Create user
     const newUser = {
@@ -80,12 +97,58 @@ router.post('/register', async (req, res) => {
       auth_method: 'email', // 'email' or 'telegram'
       telegram_user_id: null,
       telegram_username: null,
+      balance: startingBalance,
+      referral_code: userReferralCode,
+      referred_by: referrerUser ? referrerUser._id : null,
+      referred_by_code: referrerUser ? referralCode.trim().toUpperCase() : null,
       registration_date: new Date(),
       created_at: new Date(),
       updated_at: new Date()
     };
 
     const result = await db.collection('users').insertOne(newUser);
+
+    // If user was referred, give bonus to referrer
+    if (referrerUser) {
+      await db.collection('users').updateOne(
+        { _id: referrerUser._id },
+        {
+          $inc: { balance: 500 }, // Referrer bonus
+          $set: { updated_at: new Date() },
+          $push: {
+            referrals: {
+              user_id: result.insertedId,
+              username: username,
+              email: email.toLowerCase(),
+              bonus_earned: 500,
+              date: new Date()
+            }
+          }
+        }
+      );
+
+      // Create referral bonus transaction
+      await db.collection('transactions').insertOne({
+        user_id: referrerUser._id,
+        type: 'referral_bonus',
+        amount: 500,
+        description: `Реферальный бонус за приглашение ${username}`,
+        date: new Date(),
+        related_user: result.insertedId
+      });
+    }
+
+    // Create initial balance transaction for new user
+    await db.collection('transactions').insertOne({
+      user_id: result.insertedId,
+      type: 'registration_bonus',
+      amount: startingBalance,
+      description: referrerUser ? 
+        `Стартовый бонус за регистрацию по реферальной ссылке (${referralCode})` : 
+        'Стартовый бонус за регистрацию',
+      date: new Date(),
+      related_user: referrerUser ? referrerUser._id : null
+    });
 
     // Send verification email
     const emailResult = await sendVerificationEmail(email, verificationToken, username);
@@ -101,7 +164,9 @@ router.post('/register', async (req, res) => {
     res.status(201).json({
       message: 'Регистрация успешна! Проверьте email для подтверждения аккаунта',
       user_id: result.insertedId,
-      email: email
+      email: email,
+      starting_balance: startingBalance,
+      referral_bonus: referrerUser ? true : false
     });
   } catch (error) {
     console.error('Registration error:', error);
