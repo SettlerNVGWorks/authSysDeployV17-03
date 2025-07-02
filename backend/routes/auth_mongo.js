@@ -15,6 +15,13 @@ const generateSecureToken = () => {
   return crypto.randomBytes(32).toString('hex');
 };
 
+// Generate referral code
+const generateReferralCode = (username) => {
+  const randomSuffix = crypto.randomBytes(2).toString('hex').toUpperCase();
+  const cleanUsername = username.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 4);
+  return `${cleanUsername}${randomSuffix}`;
+};
+
 // Register new user with email
 router.post('/register', async (req, res) => {
   try {
