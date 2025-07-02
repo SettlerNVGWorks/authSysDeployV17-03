@@ -704,14 +704,48 @@ router.post('/telegram-confirm', async (req, res) => {
 // Get user profile (protected route)
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
+    // Get user's referral stats
+    const db = getDatabase();
+    const referralStats = await db.collection('users').aggregate([
+      { $match: { referred_by: req.user._id } },
+      { $count: "total_referrals" }
+    ]).toArray();
+
+    const totalReferrals = referralStats.length > 0 ? referralStats[0].total_referrals : 0;
+    
+    // Calculate total referral earnings
+    const referralEarnings = await db.collection('transactions').aggregate([
+      { 
+        $match: { 
+          user_id: req.user._id, 
+          type: 'referral_bonus' 
+        } 
+      },
+      { 
+        $group: { 
+          _id: null, 
+          total: { $sum: '$amount' } 
+        } 
+      }
+    ]).toArray();
+
+    const totalReferralEarnings = referralEarnings.length > 0 ? referralEarnings[0].total : 0;
+
     res.json({
       user: {
         id: req.user._id,
         email: req.user.email,
         username: req.user.username,
+        balance: req.user.balance || 0,
+        referral_code: req.user.referral_code,
         registration_date: req.user.registration_date,
         auth_method: req.user.auth_method,
-        telegram_username: req.user.telegram_username
+        telegram_username: req.user.telegram_username,
+        telegram_connected: !!req.user.telegram_user_id,
+        referral_stats: {
+          total_referrals: totalReferrals,
+          total_earnings: totalReferralEarnings
+        }
       }
     });
   } catch (error) {
