@@ -274,20 +274,20 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 px-4">
-      <div className="bg-[#0a1b2a] text-white rounded-xl shadow-2xl max-w-lg w-full p-6 relative border border-yellow-500 overflow-y-auto max-h-[80vh]">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-2 sm:p-4">
+      <div className="bg-[#0a1b2a] text-white rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md md:max-w-lg p-4 sm:p-6 relative border border-yellow-500 overflow-y-auto max-h-[95vh] sm:max-h-[90vh]">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl z-10"
+          className="absolute top-2 sm:top-3 right-2 sm:right-3 text-gray-400 hover:text-white text-xl sm:text-2xl z-10 p-1"
           aria-label="Закрыть"
         >
           ✖
         </button>
 
         {/* Header */}
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold mb-2">
+        <div className="text-center mb-4 sm:mb-6 pt-6 sm:pt-0">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2">
             {authMode === 'login' && 'АВТОРИЗАЦИЯ'}
             {authMode === 'register' && 'РЕГИСТРАЦИЯ'}
             {authMode === 'verify' && 'ПОДТВЕРЖДЕНИЕ EMAIL'}
@@ -297,22 +297,22 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
 
         {/* Error/Success messages */}
         {error && (
-          <div className="mb-4 p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200 text-sm">
+          <div className="mb-3 sm:mb-4 p-3 sm:p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200 text-xs sm:text-sm">
             {error}
           </div>
         )}
         
         {success && (
-          <div className="mb-4 p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-200 text-sm">
+          <div className="mb-3 sm:mb-4 p-3 sm:p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-200 text-xs sm:text-sm">
             {success}
           </div>
         )}
 
         {/* Login Form */}
         {authMode === 'login' && (
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-3 sm:space-y-4">
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Введите e-mail
               </label>
               <input
@@ -320,7 +320,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                 placeholder="e-mail"
                 required
                 disabled={loading}
@@ -328,7 +328,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Введите пароль
               </label>
               <input
@@ -336,14 +336,14 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                 placeholder="Пароль"
                 required
                 disabled={loading}
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
               <label className="flex items-center">
                 <input
                   type="checkbox"
@@ -351,12 +351,12 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 text-yellow-500 bg-[#142b45] border-yellow-400 rounded focus:ring-yellow-500"
                 />
-                <span className="ml-2 text-sm text-white">Запомнить</span>
+                <span className="ml-2 text-xs sm:text-sm text-white">Запомнить</span>
               </label>
               <button
                 type="button"
                 onClick={() => setAuthMode('forgot')}
-                className="text-sm text-yellow-400 hover:text-yellow-300 underline"
+                className="text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 underline text-left sm:text-right"
               >
                 Забыли пароль?
               </button>
@@ -367,9 +367,9 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
               type="button"
               onClick={handleTelegramAuth}
               disabled={telegramLoading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 sm:py-4 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 text-sm sm:text-base"
             >
-              <span>📱</span>
+              <span className="text-base sm:text-lg">📱</span>
               <span>{telegramLoading ? 'Ожидание подтверждения...' : 'Войти через Telegram'}</span>
             </button>
 
@@ -377,17 +377,17 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 sm:py-4 px-4 rounded-lg transition-colors disabled:opacity-50 text-sm sm:text-base"
             >
               {loading ? 'Вход...' : 'Войти'}
             </button>
 
-            <div className="text-center mt-4">
-              <span className="text-sm text-white">Нет аккаунта? </span>
+            <div className="text-center mt-3 sm:mt-4">
+              <span className="text-xs sm:text-sm text-white">Нет аккаунта? </span>
               <button
                 type="button"
                 onClick={() => setAuthMode('register')}
-                className="text-sm text-yellow-400 hover:text-yellow-300 underline font-medium"
+                className="text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 underline font-medium"
               >
                 Зарегистрироваться
               </button>
@@ -397,9 +397,9 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
 
         {/* Registration Form */}
         {authMode === 'register' && (
-          <form onSubmit={handleRegister} className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-3 sm:space-y-4">
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Email
               </label>
               <input
@@ -407,7 +407,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                 placeholder="your@email.com"
                 required
                 disabled={loading}
@@ -415,7 +415,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Имя пользователя
               </label>
               <input
@@ -423,7 +423,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="username"
                 value={formData.username}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                 placeholder="Ваше имя"
                 required
                 disabled={loading}
@@ -431,7 +431,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Пароль
               </label>
               <input
@@ -439,7 +439,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                 placeholder="Минимум 6 символов"
                 required
                 disabled={loading}
@@ -448,7 +448,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Подтвердите пароль
               </label>
               <input
@@ -456,7 +456,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                 placeholder="Повторите пароль"
                 required
                 disabled={loading}
@@ -466,7 +466,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
 
             {/* Referral Code Field */}
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Реферальный код (необязательно)
               </label>
               <input
@@ -474,7 +474,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="referralCode"
                 value={formData.referralCode}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 bg-[#142b45] border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-white placeholder-gray-300 ${
+                className={`w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base ${
                   referralStatus.valid === true ? 'border-green-500 focus:ring-green-500' :
                   referralStatus.valid === false ? 'border-red-500 focus:ring-red-500' :
                   'border-yellow-400 focus:ring-yellow-500'
@@ -485,23 +485,23 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
               
               {/* Referral Status */}
               {referralStatus.checking && (
-                <div className="mt-2 text-sm text-yellow-400 flex items-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-yellow-400 mr-2"></div>
+                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-yellow-400 flex items-center">
+                  <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-yellow-400 mr-2"></div>
                   Проверяем код...
                 </div>
               )}
               
               {referralStatus.valid === true && (
-                <div className="mt-2 text-sm text-green-400 flex items-center">
+                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-green-400 flex items-center">
                   <span className="mr-2">✅</span>
-                  {referralStatus.message}
+                  <span className="break-words">{referralStatus.message}</span>
                 </div>
               )}
               
               {referralStatus.valid === false && (
-                <div className="mt-2 text-sm text-red-400 flex items-center">
+                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-red-400 flex items-center">
                   <span className="mr-2">❌</span>
-                  {referralStatus.message}
+                  <span className="break-words">{referralStatus.message}</span>
                 </div>
               )}
             </div>
@@ -509,17 +509,17 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 sm:py-4 px-4 rounded-lg transition-colors disabled:opacity-50 text-sm sm:text-base"
             >
               {loading ? 'Регистрация...' : 'Зарегистрироваться'}
             </button>
 
-            <div className="text-center mt-4">
-              <span className="text-sm text-white">Уже есть аккаунт? </span>
+            <div className="text-center mt-3 sm:mt-4">
+              <span className="text-xs sm:text-sm text-white">Уже есть аккаунт? </span>
               <button
                 type="button"
                 onClick={() => setAuthMode('login')}
-                className="text-sm text-yellow-400 hover:text-yellow-300 underline font-medium"
+                className="text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 underline font-medium"
               >
                 Войти
               </button>
@@ -529,17 +529,17 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
 
         {/* Email Verification Form */}
         {authMode === 'verify' && (
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div className="text-center">
-              <div className="text-6xl mb-4">📧</div>
-              <p className="text-gray-300 mb-4">
+              <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">📧</div>
+              <p className="text-gray-300 mb-3 sm:mb-4 text-xs sm:text-sm leading-relaxed">
                 Мы отправили письмо с кодом подтверждения на ваш email
               </p>
             </div>
 
             <form onSubmit={handleVerifyEmail}>
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                   Код подтверждения из email
                 </label>
                 <input
@@ -547,7 +547,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                   name="verificationToken"
                   value={formData.verificationToken}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                  className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                   placeholder="Введите код из письма"
                   required
                   disabled={loading}
@@ -557,7 +557,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 mt-4"
+                className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 sm:py-4 px-4 rounded-lg transition-colors disabled:opacity-50 mt-3 sm:mt-4 text-sm sm:text-base"
               >
                 {loading ? 'Подтверждение...' : 'Подтвердить'}
               </button>
@@ -568,7 +568,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 type="button"
                 onClick={handleResendVerification}
                 disabled={loading}
-                className="text-sm text-yellow-400 hover:text-yellow-300 underline"
+                className="text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 underline"
               >
                 Отправить код повторно
               </button>
@@ -578,16 +578,16 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
 
         {/* Forgot Password Form */}
         {authMode === 'forgot' && (
-          <form onSubmit={handleForgotPassword} className="space-y-4">
-            <div className="text-center mb-4">
-              <div className="text-6xl mb-4">🔐</div>
-              <p className="text-gray-300">
+          <form onSubmit={handleForgotPassword} className="space-y-3 sm:space-y-4">
+            <div className="text-center mb-3 sm:mb-4">
+              <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">🔐</div>
+              <p className="text-gray-300 text-xs sm:text-sm">
                 Введите ваш email для сброса пароля
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">
                 Email
               </label>
               <input
@@ -595,7 +595,7 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                className="w-full px-3 sm:px-4 py-3 sm:py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300 text-sm sm:text-base"
                 placeholder="your@email.com"
                 required
                 disabled={loading}
@@ -605,16 +605,16 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 sm:py-4 px-4 rounded-lg transition-colors disabled:opacity-50 text-sm sm:text-base"
             >
               {loading ? 'Отправка...' : 'Отправить инструкции'}
             </button>
 
-            <div className="text-center mt-4">
+            <div className="text-center mt-3 sm:mt-4">
               <button
                 type="button"
                 onClick={() => setAuthMode('login')}
-                className="text-sm text-yellow-400 hover:text-yellow-300 underline"
+                className="text-xs sm:text-sm text-yellow-400 hover:text-yellow-300 underline"
               >
                 Вернуться к входу
               </button>
