@@ -426,7 +426,7 @@ const MainApp = () => {
       
       {menuOpen && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex justify-end">
-          <div className="w-64 bg-[#0a1b2a] text-white h-full p-6 shadow-lg border-l border-blue-100 relative animate-slide-in-right">
+          <div className="w-64 bg-[#0a1b2a] text-white h-full p-6 shadow-lg border-l border-yellow-500 relative animate-slide-in-right">
             <button
               onClick={() => setMenuOpen(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl"
@@ -439,7 +439,7 @@ const MainApp = () => {
                   setMenuOpen(false);
                   setShowServices(true);
                 }}
-                className="block w-full text-left text-blue-300 hover:text-blue-100 font-semibold border-t border-blue-100 py-3 px-2 hover:bg-blue-900/20 transition"
+                className="block w-full text-left text-yellow-400 hover:text-yellow-300 font-semibold border-t border-yellow-400 py-3 px-2 hover:bg-yellow-400/10 transition"
               >
                 💼 Наши услуги
               </button>
@@ -448,7 +448,7 @@ const MainApp = () => {
                   setMenuOpen(false);
                   setShowBot(true);
                 }}
-                className="block w-full text-left text-blue-300 hover:text-blue-100 font-semibold border-t border-blue-100 py-3 px-2 hover:bg-blue-900/20 transition"
+                className="block w-full text-left text-yellow-400 hover:text-yellow-300 font-semibold border-t border-yellow-400 py-3 px-2 hover:bg-yellow-400/10 transition"
               >
                 🤖 Наш бот
               </button>
@@ -457,7 +457,7 @@ const MainApp = () => {
                   setMenuOpen(false);
                   setShowGame(true);
                 }}
-                className="block w-full text-left text-blue-300 hover:text-blue-100 font-semibold border-t border-blue-100 py-3 px-2 hover:bg-blue-900/20 transition"
+                className="block w-full text-left text-yellow-400 hover:text-yellow-300 font-semibold border-t border-yellow-400 py-3 px-2 hover:bg-yellow-400/10 transition"
               >
                 🎮 Мини-игра
               </button>
@@ -466,7 +466,7 @@ const MainApp = () => {
                   setMenuOpen(false);
                   setShowSponsor(true);
                 }}
-                className="block w-full text-left text-blue-300 hover:text-blue-100 font-semibold border-t border-blue-100 py-3 px-2 hover:bg-blue-900/20 transition"
+                className="block w-full text-left text-yellow-400 hover:text-yellow-300 font-semibold border-t border-yellow-400 py-3 px-2 hover:bg-yellow-400/10 transition"
               >
                 🤝 Наши спонсоры
               </button>
@@ -476,7 +476,7 @@ const MainApp = () => {
                   setMenuOpen(false);
                   setShowContact(true);
                 }}
-                className="block w-full text-left text-blue-300 hover:text-blue-100 font-semibold border-t border-blue-100 py-3 px-2 hover:bg-blue-900/20 transition"
+                className="block w-full text-left text-yellow-400 hover:text-yellow-300 font-semibold border-t border-yellow-400 py-3 px-2 hover:bg-yellow-400/10 transition"
               >
                 📞 Контакты
               </button>
@@ -485,7 +485,7 @@ const MainApp = () => {
                   setMenuOpen(false);
                   setShowFAQ(true);
                 }}
-                className="block w-full text-left text-blue-300 hover:text-blue-100 font-semibold border-t border-blue-100 py-3 px-2 hover:bg-blue-900/20 transition"
+                className="block w-full text-left text-yellow-400 hover:text-yellow-300 font-semibold border-t border-yellow-400 py-3 px-2 hover:bg-yellow-400/10 transition"
               >
                 ❓ FAQ
               </button>

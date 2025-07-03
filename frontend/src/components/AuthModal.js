@@ -367,9 +367,9 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
               type="button"
               onClick={handleTelegramAuth}
               disabled={telegramLoading}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 sm:py-4 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 text-sm sm:text-base"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 sm:py-4 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 text-sm sm:text-base"
             >
-              <span className="text-base sm:text-lg">📱</span>
+              <span className="text-base sm:text-lg">✈️</span>
               <span>{telegramLoading ? 'Ожидание подтверждения...' : 'Войти через Telegram'}</span>
             </button>
 
