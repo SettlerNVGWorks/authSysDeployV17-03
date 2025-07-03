@@ -275,19 +275,19 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 px-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-0 relative overflow-hidden">
+      <div className="bg-[#0a1b2a] text-white rounded-xl shadow-2xl max-w-lg w-full p-6 relative border border-yellow-500 overflow-y-auto max-h-[80vh]">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl z-10"
+          className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl z-10"
           aria-label="Закрыть"
         >
           ✖
         </button>
 
         {/* Header */}
-        <div className="text-center py-6 px-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold mb-2">
             {authMode === 'login' && 'АВТОРИЗАЦИЯ'}
             {authMode === 'register' && 'РЕГИСТРАЦИЯ'}
             {authMode === 'verify' && 'ПОДТВЕРЖДЕНИЕ EMAIL'}
@@ -295,309 +295,260 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
           </h2>
         </div>
 
-        <div className="px-6 pb-6">
-          {/* Error/Success messages */}
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 rounded-lg text-red-700 text-sm">
-              {error}
+        {/* Error/Success messages */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200 text-sm">
+            {error}
+          </div>
+        )}
+        
+        {success && (
+          <div className="mb-4 p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-200 text-sm">
+            {success}
+          </div>
+        )}
+
+        {/* Login Form */}
+        {authMode === 'login' && (
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Введите e-mail
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                placeholder="e-mail"
+                required
+                disabled={loading}
+              />
             </div>
-          )}
-          
-          {success && (
-            <div className="mb-4 p-3 bg-green-100 border border-green-400 rounded-lg text-green-700 text-sm">
-              {success}
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Введите пароль
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                placeholder="Пароль"
+                required
+                disabled={loading}
+              />
             </div>
-          )}
 
-          {/* Login Form */}
-          {authMode === 'login' && (
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Введите e-mail
-                </label>
+            <div className="flex items-center justify-between">
+              <label className="flex items-center">
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e-mail"
-                  required
-                  disabled={loading}
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 text-yellow-500 bg-[#142b45] border-yellow-400 rounded focus:ring-yellow-500"
                 />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Введите пароль
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Пароль"
-                  required
-                  disabled={loading}
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                  />
-                  <span className="ml-2 text-sm text-gray-600">Запомнить</span>
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setAuthMode('forgot')}
-                  className="text-sm text-gray-600 hover:text-gray-800 underline"
-                >
-                  Забыли пароль?
-                </button>
-              </div>
-
-              {/* Telegram Auth Button */}
+                <span className="ml-2 text-sm text-white">Запомнить</span>
+              </label>
               <button
                 type="button"
-                onClick={handleTelegramAuth}
-                disabled={telegramLoading}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                onClick={() => setAuthMode('forgot')}
+                className="text-sm text-yellow-400 hover:text-yellow-300 underline"
               >
-                <span>📱</span>
-                <span>{telegramLoading ? 'Ожидание подтверждения...' : 'Войти через Telegram'}</span>
+                Забыли пароль?
               </button>
-
-              {/* Login Button */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
-              >
-                {loading ? 'Вход...' : 'Войти'}
-              </button>
-
-              <div className="text-center mt-4">
-                <span className="text-sm text-gray-600">Нет аккаунта? </span>
-                <button
-                  type="button"
-                  onClick={() => setAuthMode('register')}
-                  className="text-sm text-blue-600 hover:text-blue-800 underline font-medium"
-                >
-                  Зарегистрироваться
-                </button>
-              </div>
-            </form>
-          )}
-
-          {/* Registration Form */}
-          {authMode === 'register' && (
-            <form onSubmit={handleRegister} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="your@email.com"
-                  required
-                  disabled={loading}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Имя пользователя
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Ваше имя"
-                  required
-                  disabled={loading}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Пароль
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Минимум 6 символов"
-                  required
-                  disabled={loading}
-                  minLength="6"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Подтвердите пароль
-                </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Повторите пароль"
-                  required
-                  disabled={loading}
-                  minLength="6"
-                />
-              </div>
-
-              {/* Referral Code Field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Реферальный код (необязательно)
-                </label>
-                <input
-                  type="text"
-                  name="referralCode"
-                  value={formData.referralCode}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent ${
-                    referralStatus.valid === true ? 'border-green-500 focus:ring-green-500 bg-green-50' :
-                    referralStatus.valid === false ? 'border-red-500 focus:ring-red-500 bg-red-50' :
-                    'border-gray-300 focus:ring-blue-500'
-                  }`}
-                  placeholder="Введите код друга"
-                  disabled={loading}
-                />
-                
-                {/* Referral Status */}
-                {referralStatus.checking && (
-                  <div className="mt-2 text-sm text-blue-600 flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-                    Проверяем код...
-                  </div>
-                )}
-                
-                {referralStatus.valid === true && (
-                  <div className="mt-2 text-sm text-green-600 flex items-center">
-                    <span className="mr-2">✅</span>
-                    {referralStatus.message}
-                  </div>
-                )}
-                
-                {referralStatus.valid === false && (
-                  <div className="mt-2 text-sm text-red-600 flex items-center">
-                    <span className="mr-2">❌</span>
-                    {referralStatus.message}
-                  </div>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
-              >
-                {loading ? 'Регистрация...' : 'Зарегистрироваться'}
-              </button>
-
-              <div className="text-center mt-4">
-                <span className="text-sm text-gray-600">Уже есть аккаунт? </span>
-                <button
-                  type="button"
-                  onClick={() => setAuthMode('login')}
-                  className="text-sm text-blue-600 hover:text-blue-800 underline font-medium"
-                >
-                  Войти
-                </button>
-              </div>
-            </form>
-          )}
-
-          {/* Email Verification Form */}
-          {authMode === 'verify' && (
-            <div className="space-y-4">
-              <div className="text-center">
-                <div className="text-6xl mb-4">📧</div>
-                <p className="text-gray-600 mb-4">
-                  Мы отправили письмо с кодом подтверждения на ваш email
-                </p>
-              </div>
-
-              <form onSubmit={handleVerifyEmail}>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Код подтверждения из email
-                  </label>
-                  <input
-                    type="text"
-                    name="verificationToken"
-                    value={formData.verificationToken}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Введите код из письма"
-                    required
-                    disabled={loading}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 mt-4"
-                >
-                  {loading ? 'Подтверждение...' : 'Подтвердить'}
-                </button>
-              </form>
-
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={handleResendVerification}
-                  disabled={loading}
-                  className="text-sm text-blue-600 hover:text-blue-800 underline"
-                >
-                  Отправить код повторно
-                </button>
-              </div>
             </div>
-          )}
 
-          {/* Forgot Password Form */}
-          {authMode === 'forgot' && (
-            <form onSubmit={handleForgotPassword} className="space-y-4">
-              <div className="text-center mb-4">
-                <div className="text-6xl mb-4">🔐</div>
-                <p className="text-gray-600">
-                  Введите ваш email для сброса пароля
-                </p>
-              </div>
+            {/* Telegram Auth Button */}
+            <button
+              type="button"
+              onClick={handleTelegramAuth}
+              disabled={telegramLoading}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+            >
+              <span>📱</span>
+              <span>{telegramLoading ? 'Ожидание подтверждения...' : 'Войти через Telegram'}</span>
+            </button>
 
+            {/* Login Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+            >
+              {loading ? 'Вход...' : 'Войти'}
+            </button>
+
+            <div className="text-center mt-4">
+              <span className="text-sm text-white">Нет аккаунта? </span>
+              <button
+                type="button"
+                onClick={() => setAuthMode('register')}
+                className="text-sm text-yellow-400 hover:text-yellow-300 underline font-medium"
+              >
+                Зарегистрироваться
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Registration Form */}
+        {authMode === 'register' && (
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                placeholder="your@email.com"
+                required
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Имя пользователя
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                placeholder="Ваше имя"
+                required
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Пароль
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                placeholder="Минимум 6 символов"
+                required
+                disabled={loading}
+                minLength="6"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Подтвердите пароль
+              </label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                placeholder="Повторите пароль"
+                required
+                disabled={loading}
+                minLength="6"
+              />
+            </div>
+
+            {/* Referral Code Field */}
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Реферальный код (необязательно)
+              </label>
+              <input
+                type="text"
+                name="referralCode"
+                value={formData.referralCode}
+                onChange={handleInputChange}
+                className={`w-full px-4 py-3 bg-[#142b45] border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-white placeholder-gray-300 ${
+                  referralStatus.valid === true ? 'border-green-500 focus:ring-green-500' :
+                  referralStatus.valid === false ? 'border-red-500 focus:ring-red-500' :
+                  'border-yellow-400 focus:ring-yellow-500'
+                }`}
+                placeholder="Введите код друга"
+                disabled={loading}
+              />
+              
+              {/* Referral Status */}
+              {referralStatus.checking && (
+                <div className="mt-2 text-sm text-yellow-400 flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-yellow-400 mr-2"></div>
+                  Проверяем код...
+                </div>
+              )}
+              
+              {referralStatus.valid === true && (
+                <div className="mt-2 text-sm text-green-400 flex items-center">
+                  <span className="mr-2">✅</span>
+                  {referralStatus.message}
+                </div>
+              )}
+              
+              {referralStatus.valid === false && (
+                <div className="mt-2 text-sm text-red-400 flex items-center">
+                  <span className="mr-2">❌</span>
+                  {referralStatus.message}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+            >
+              {loading ? 'Регистрация...' : 'Зарегистрироваться'}
+            </button>
+
+            <div className="text-center mt-4">
+              <span className="text-sm text-white">Уже есть аккаунт? </span>
+              <button
+                type="button"
+                onClick={() => setAuthMode('login')}
+                className="text-sm text-yellow-400 hover:text-yellow-300 underline font-medium"
+              >
+                Войти
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Email Verification Form */}
+        {authMode === 'verify' && (
+          <div className="space-y-4">
+            <div className="text-center">
+              <div className="text-6xl mb-4">📧</div>
+              <p className="text-gray-300 mb-4">
+                Мы отправили письмо с кодом подтверждения на ваш email
+              </p>
+            </div>
+
+            <form onSubmit={handleVerifyEmail}>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email
+                <label className="block text-sm font-medium text-white mb-2">
+                  Код подтверждения из email
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
+                  type="text"
+                  name="verificationToken"
+                  value={formData.verificationToken}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="your@email.com"
+                  className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                  placeholder="Введите код из письма"
                   required
                   disabled={loading}
                 />
@@ -606,23 +557,70 @@ const AuthModal = ({ isOpen, onClose, onSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+                className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 mt-4"
               >
-                {loading ? 'Отправка...' : 'Отправить инструкции'}
+                {loading ? 'Подтверждение...' : 'Подтвердить'}
               </button>
-
-              <div className="text-center mt-4">
-                <button
-                  type="button"
-                  onClick={() => setAuthMode('login')}
-                  className="text-sm text-blue-600 hover:text-blue-800 underline"
-                >
-                  Вернуться к входу
-                </button>
-              </div>
             </form>
-          )}
-        </div>
+
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={handleResendVerification}
+                disabled={loading}
+                className="text-sm text-yellow-400 hover:text-yellow-300 underline"
+              >
+                Отправить код повторно
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Forgot Password Form */}
+        {authMode === 'forgot' && (
+          <form onSubmit={handleForgotPassword} className="space-y-4">
+            <div className="text-center mb-4">
+              <div className="text-6xl mb-4">🔐</div>
+              <p className="text-gray-300">
+                Введите ваш email для сброса пароля
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-[#142b45] border border-yellow-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-white placeholder-gray-300"
+                placeholder="your@email.com"
+                required
+                disabled={loading}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-[#0a1b2a] font-bold py-3 px-4 rounded-lg transition-colors disabled:opacity-50"
+            >
+              {loading ? 'Отправка...' : 'Отправить инструкции'}
+            </button>
+
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => setAuthMode('login')}
+                className="text-sm text-yellow-400 hover:text-yellow-300 underline"
+              >
+                Вернуться к входу
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
